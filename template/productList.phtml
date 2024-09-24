@@ -1,0 +1,24 @@
+<?php require_once 'header.phtml'; ?>
+
+<div class="container mx-auto p-5">
+    <h1 class="text-2xl font-bold mb-5">Lista de Productos</h1>
+    
+    <?php if (!empty($products)): ?>
+        <ul class="list-disc pl-5">
+            <?php foreach ($products as $product): ?>
+                <li class="mb-2">
+                    <h2 class="text-lg font-semibold"><?php echo htmlspecialchars($product->nombre); ?></h2>
+                    <p class="text-gray-700">Descripción: <?php echo htmlspecialchars($product->descripcion); ?></p>
+                    <p class="text-gray-700">Precio: $<?php echo htmlspecialchars(number_format($product->precio, 2)); ?></p>
+                    <p class="text-gray-700">Stock: <?php echo htmlspecialchars($product->stock); ?></p>
+                    <img src="<?php echo htmlspecialchars($product->imagen); ?>" alt="<?php echo htmlspecialchars($product->nombre); ?>" class="w-24 h-24 object-cover mt-2">
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No hay productos disponibles.</p>
+    <?php endif; ?>
+</div>
+
+
+<?php require_once 'footer.phtml'; ?>
