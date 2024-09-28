@@ -38,7 +38,18 @@ class AuthHelper{
         return null;
     }
 
+    public static function isAdmin() {
+        $userModel = new UserModel();
+        $rol = $userModel->getRolUser(self::getLoggedInUserId());
+        return ($rol == 1);
+    }
+
     public static function isUserLoggedIn() {
         return self::getLoggedInUserId() !== null;
+    }
+
+    public static function redirectToLogin() {
+        header('Location: login');
+        exit();
     }
 }

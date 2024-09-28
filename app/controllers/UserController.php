@@ -2,14 +2,17 @@
 
 require_once 'app/models/UserModel.php';
 require_once 'app/views/UserView.php';
+require_once 'app/views/ErrorView.php';
 
 class UserController{
     private $userModel;
     private $userView;
+    private $errorView;
 
     function __construct(){
         $this->userModel = new UserModel();
         $this->userView = new UserView();
+        $this->errorView = new ErrorView();
     }
 
     public function showCreateUSer(){
@@ -21,7 +24,7 @@ class UserController{
         $users = $this->userModel->getUsers();
         $this->userView->showUsers($users);
         }else{
-            header('Location: login');
+            $this->redirectToLogin();
         }
     }
 
@@ -50,7 +53,7 @@ class UserController{
             // Crear usuario con la contraseña hasheada
             $this->userModel->createUser($nombre, $email, $hashedPassword, $fechaRegistro);
             
-            header(header: 'Location: login');
+            $this->redirectToLogin();
             exit;
         } else {
             $this->userView->showCreateUSer("Campos incompletos");
@@ -69,14 +72,21 @@ class UserController{
                 $this->userView->showEditUSer("Campos incompletos");
             }
         }else{
-            header(header: 'Location: login');
+            $this->redirectToLogin();
         }
     }
 
     public function deleteUSer($usuario_id){
-        if(AuthHelper::isLogged()){
-        $this->userModel->deleteUser($usuario_id);
-        }    
+        if (!AuthHelper::isLogged()) {
+            $this->redirectToLogin();
+            return;
+        }
+        
+        if (AuthHelper::isAdmin() || AuthHelper::getLoggedInUserId() == $usuario_id) {
+            $this->userModel->deleteUser($usuario_id);
+        }else{
+            $this->errorView->showError('No tienes permisos para eliminar este usuario');
+        }
     }
 
     // Función para validar la contraseña
@@ -88,5 +98,10 @@ class UserController{
         $hasSpecialChar = preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password);
 
         return !(strlen($password) >= $minLength && $hasUpperCase && $hasLowerCase && $hasNumber && $hasSpecialChar);
+    }
+
+    private function redirectToLogin() {
+        header('Location: login');
+        exit();
     }
 }

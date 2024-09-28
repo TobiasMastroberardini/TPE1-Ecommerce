@@ -28,6 +28,12 @@ class UserModel extends Model{
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
+    function getRolUSer($id_usuario){
+        $query = $this->db->prepare('SELECT rol FROM usuarios WHERE id_usuario = ?');
+        $query->execute([$id_usuario]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
     function verifyEmailRegistred($email){
         $query = $this->db->prepare('SELECT * FROM usuarios WHERE email=?');
         $query->execute([$email]);
@@ -35,8 +41,8 @@ class UserModel extends Model{
     }
 
     function createUser($nombre, $email, $contraseña, $fecha_registro){
-        $query = $this->db->prepare('INSERT INTO usuarios (nombre, email, contraseña, fecha_registro) VALUES (?,?,?,?)');
-        $query->execute([$nombre, $email, $contraseña, $fecha_registro]);
+        $query = $this->db->prepare('INSERT INTO usuarios (nombre, email, contraseña, fecha_registro, rol) VALUES (?,?,?,?)');
+        $query->execute([$nombre, $email, $contraseña, $fecha_registro, 0]);
     }
 
     function editUser($usuario_id, $email, $contraseña){

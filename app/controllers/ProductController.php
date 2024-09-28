@@ -52,33 +52,33 @@ class ProductController{
             $this->ErrorView->showError('Los productos no existen en la base de datos.');
         }
     }
-
-function createProduct(){
-    if(AuthHelper::isLogged()){
-        $nombre = $_POST['nombre'];
-        $categoria = $_POST['categoria'];
-        $descripcion = $_POST['descripcion'];
-        $precio = $_POST['precio'];
-        $imagen = "5904";
-        $stock = $_POST['stock'];
+    
+    function createProduct(){
+        if(AuthHelper::isLogged()){
+            $nombre = $_POST['nombre'];
+            $categoria = $_POST['categoria'];
+            $descripcion = $_POST['descripcion'];
+            $precio = $_POST['precio'];
+            $imagen = "5904";
+            $stock = $_POST['stock'];
         
-        $id_vendedor = AuthHelper::getLoggedInUserId();
-        $fecha_creacion = date('Y-m-d H:i:s');
-
-        // Verifica que todos los campos requeridos estén completos
-        if (empty($nombre) || empty($categoria) || empty($descripcion) || empty($precio) || empty($imagen) || empty($stock)) {
-            // Si faltan campos, muestra un error
-            $this->viewProduct->showCreateProduct("Faltan completar campos");
-        } else {
-            // Llama al modelo para crear el producto con los datos recogidos
-            $this->modelProduct->createProduct($id_vendedor, $categoria, $nombre, $descripcion, $precio, $imagen, $stock, $fecha_creacion);
-            // Redirige a la página de inicio o muestra un mensaje de éxito
-            $this->viewProduct->showInicio("Producto agregado");
+            $id_vendedor = AuthHelper::getLoggedInUserId();
+            $fecha_creacion = date('Y-m-d H:i:s');
+            
+            // Verifica que todos los campos requeridos estén completo
+            if (empty($nombre) || empty($categoria) || empty($descripcion) || empty($precio) || empty($imagen) || empty($stock)) {
+                // Si faltan campos, muestra un error
+                $this->viewProduct->showCreateProduct("Faltan completar campos");
+            } else {
+                // Llama al modelo para crear el producto con los datos recogidos
+                $this->modelProduct->createProduct($id_vendedor, $categoria, $nombre, $descripcion, $precio, $imagen, $stock, $fecha_creacion);
+                // Redirige a la página de inicio o muestra un mensaje de éxito
+                $this->viewProduct->showInicio("Producto agregado");
+            }
+        }else{
+            AuthHelper::redirectToLogin();
         }
-    }else{
-        header('Location: login');
     }
-}
 
     function editProduct($producto_id){
         $id_vendedor = $this->modelProduct->getSellerId($producto_id);
@@ -97,16 +97,21 @@ function createProduct(){
                 $this->viewProduct->showInicio("Producto modificado");
             }
         }else{
-            header('Location: login');
+            AuthHelper::redirectToLogin();
         }
     }
     
     function deleteProduct($producto_id){
+        if(!AuthHelper::isLogged()){
+            AuthHelper::redirectToLogin();
+            return;
+        }
+
         $id_vendedor = $this->modelProduct->getSellerId($producto_id);
-        if(AuthHelper::isLogged() && AuthHelper::getLoggedInUserId() == $id_vendedor){
+        if(AuthHelper::getLoggedInUserId() == $id_vendedor || AuthHelper::isAdmin()){
             $this->modelProduct->deleteProduct($producto_id);
         }else{
-             header('Location: login');
+            AuthHelper::redirectToLogin();
         }
     }
 
