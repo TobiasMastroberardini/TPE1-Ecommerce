@@ -1,0 +1,18 @@
+<?php require_once 'header.phtml'; ?>
+
+<div class="container">
+ <?php if (!empty($users)): ?>
+        <ul class="list-disc pl-5">
+            <?php foreach ($users as $usuario): ?>
+                <li class="mb-2">
+                    <h2 class="text-lg font-semibold"><?php echo htmlspecialchars($usuario->nombre); ?></h2>
+                    <p class="text-gray-700">email: <?php echo htmlspecialchars($usuario->email); ?></p>
+                    <p class="text-gray-700">fecha registro: $<?php echo htmlspecialchars($usuario->fecha_registro); ?></p>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>No hay usuarios disponibles.</p>
+    <?php endif; ?></div>
+
+<?php require_once 'footer.phtml'; ?>

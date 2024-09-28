@@ -4,6 +4,12 @@ require_once 'app/models/Model.php';
 
 class UserModel extends Model{
 
+    function getUsers(){
+        $query = $this->db->prepare('SELECT * FROM usuarios');
+        $query->execute([]);
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
+    
     function getUSer($email){
         $query = $this->db->prepare('SELECT * FROM usuarios WHERE email = ?');
         $query->execute([$email]);
@@ -13,6 +19,12 @@ class UserModel extends Model{
     function getUSerByNombre($nombre){
         $query = $this->db->prepare('SELECT * FROM usuarios WHERE nombre=?');
         $query->execute([$nombre]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    function getIdUser($id_usuario){
+        $query = $this->db->prepare('SELECT id_usuario FROM usuarios WHERE id_usuario');
+        $query->execute[$id_usuario];
         return $query->fetch(PDO::FETCH_OBJ);
     }
 

@@ -28,14 +28,20 @@ class ProductModel extends Model{
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
+    function getSellerId($id_producto){
+        $query = $this->db->prepare('SELECT id_vendedor FROM productos WHERE id_producto');
+        $query->execute([$id_producto]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
     function createProduct($id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion) {
         $query = $this->db->prepare('INSERT INTO productos (id_vendedor, id_categoria, nombre, descripcion, precio, imagen, stock, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
         $query->execute([$id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion]);
    }
 
-    function editProduct($id_producto, $id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock) {
-        $query = $this->db->prepare('UPDATE productos SET id_vendedor = ?, categoria = ?, nombre = ?, descripcio = ?, precio = ?, imagen = ?, stock = ? WHERE id_producto = ?');
-        $query->execute([$id_producto, $id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $id_producto]);
+    function editProduct($id_producto, $categoria, $nombre, $descripcio, $precio, $imagen, $stock) {
+        $query = $this->db->prepare('UPDATE productos SET categoria = ?, nombre = ?, descripcio = ?, precio = ?, imagen = ?, stock = ? WHERE id_producto = ?');
+        $query->execute([$id_producto, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $id_producto]);
     }
 
     function deleteProduct($producto_id){

@@ -16,6 +16,15 @@ class UserController{
         $this->userView->showCreateUSer();
     }
 
+    public function showUsers(){
+        if(AuthHelper::isLogged()){
+        $users = $this->userModel->getUsers();
+        $this->userView->showUsers($users);
+        }else{
+            header('Location: login');
+        }
+    }
+
     public function createUser() {
         $email = $_POST['email'];
         $nombre = $_POST['nombre'];
@@ -41,7 +50,7 @@ class UserController{
             // Crear usuario con la contraseña hasheada
             $this->userModel->createUser($nombre, $email, $hashedPassword, $fechaRegistro);
             
-            header('Location: login');
+            header(header: 'Location: login');
             exit;
         } else {
             $this->userView->showCreateUSer("Campos incompletos");
@@ -49,18 +58,25 @@ class UserController{
     }
 
     public function editUSer($usuario_id){
-        $email = $_POST['email'];
-        $contrasenia = $_POST['contrasenia'];
+        $id = $this->userModel->getIdUser($usuario_id);
+        if(AuthHelper::isLogged() && AuthHelper::getLoggedInUserId() == $id){
+            $email = $_POST['email'];
+            $contrasenia = $_POST['contrasenia'];
 
-        if($email && $contrasenia){
-            $this->userModel->editUser($usuario_id, $email, $contrasenia);
+            if($email && $contrasenia){
+                $this->userModel->editUser($usuario_id, $email, $contrasenia);
+            }else{
+                $this->userView->showEditUSer("Campos incompletos");
+            }
         }else{
-            $this->userView->showEditUSer("Campos incompletos");
+            header(header: 'Location: login');
         }
     }
 
     public function deleteUSer($usuario_id){
-            $this->userModel->deleteUser($usuario_id);
+        if(AuthHelper::isLogged()){
+        $this->userModel->deleteUser($usuario_id);
+        }    
     }
 
     // Función para validar la contraseña

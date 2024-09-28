@@ -40,6 +40,10 @@ switch ($params[0]) {
         $controller = new UserController();
         $controller->createUser();
         break;
+    case 'users':
+        $controller = new UserController();
+        $controller->showUsers();
+        break;
     case 'products':
         $controller = new ProductController();
         $controller->getProduts();

@@ -9,4 +9,8 @@ class UserView{
     function showEditUSer($message = null){
         require_once "template/editUSer.phtml";
     }
+
+    function showUsers($users){
+        require_once "template/userList.phtml";
+    }
 }
