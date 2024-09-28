@@ -1,4 +1,6 @@
 <?php
+require_once 'app/helpers/AuthHelper.php';
+require_once 'app/helpers/RedirectHelper.php';
 require_once "app/views/ErrorView.php";
 require_once "app/models/ProductModel.php";
 require_once "app/models/CategoryModel.php";
@@ -76,7 +78,7 @@ class ProductController{
                 $this->viewProduct->showInicio("Producto agregado");
             }
         }else{
-            AuthHelper::redirectToLogin();
+            RedirectHelper::redirectToLogin();
         }
     }
 
@@ -97,13 +99,13 @@ class ProductController{
                 $this->viewProduct->showInicio("Producto modificado");
             }
         }else{
-            AuthHelper::redirectToLogin();
+            RedirectHelper::redirectToLogin();
         }
     }
     
     function deleteProduct($producto_id){
         if(!AuthHelper::isLogged()){
-            AuthHelper::redirectToLogin();
+            RedirectHelper::redirectToLogin();
             return;
         }
 
@@ -111,7 +113,7 @@ class ProductController{
         if(AuthHelper::getLoggedInUserId() == $id_vendedor || AuthHelper::isAdmin()){
             $this->modelProduct->deleteProduct($producto_id);
         }else{
-            AuthHelper::redirectToLogin();
+            RedirectHelper::redirectToLogin();
         }
     }
 

@@ -48,6 +48,14 @@ switch ($params[0]) {
         $controller = new ProductController();
         $controller->getProduts();
         break;
+    case 'category':
+        $controller = new ProductController();
+        $controller->getProductsByCategory($params[1]);
+        break;
+    case 'seller':
+        $controller = new ProductController();
+        $controller->getProductsBySeller($params[1]);
+        break;
     case 'createProduct':
         $controller = new ProductController();
         $controller->showCreateProduct();

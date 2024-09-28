@@ -1,5 +1,6 @@
 <?php
-
+require_once 'app/helpers/AuthHelper.php';
+require_once 'app/helpers/RedirectHelper.php';
 require_once 'app/models/UserModel.php';
 require_once 'app/views/UserView.php';
 require_once 'app/views/ErrorView.php';
@@ -24,7 +25,7 @@ class UserController{
         $users = $this->userModel->getUsers();
         $this->userView->showUsers($users);
         }else{
-            $this->redirectToLogin();
+            RedirectHelper::redirectToLogin();
         }
     }
 
@@ -53,7 +54,7 @@ class UserController{
             // Crear usuario con la contraseña hasheada
             $this->userModel->createUser($nombre, $email, $hashedPassword, $fechaRegistro);
             
-            $this->redirectToLogin();
+            RedirectHelper::redirectToLogin();
             exit;
         } else {
             $this->userView->showCreateUSer("Campos incompletos");
@@ -72,13 +73,13 @@ class UserController{
                 $this->userView->showEditUSer("Campos incompletos");
             }
         }else{
-            $this->redirectToLogin();
+            RedirectHelper::redirectToLogin();
         }
     }
 
     public function deleteUSer($usuario_id){
         if (!AuthHelper::isLogged()) {
-            $this->redirectToLogin();
+            RedirectHelper::redirectToLogin();
             return;
         }
         
@@ -98,10 +99,5 @@ class UserController{
         $hasSpecialChar = preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password);
 
         return !(strlen($password) >= $minLength && $hasUpperCase && $hasLowerCase && $hasNumber && $hasSpecialChar);
-    }
-
-    private function redirectToLogin() {
-        header('Location: login');
-        exit();
     }
 }

@@ -11,27 +11,27 @@ class ProductModel extends Model{
     }
 
     function getProductById($producto_id){
-        $query = $this->db->prepare('SELECT * FROM productos WHERE producto_id');
+        $query = $this->db->prepare('SELECT * FROM productos WHERE id_producto  = ?');
         $query->execute([$producto_id]);
         return $query->fetch(PDO::FETCH_OBJ);
     }
 
     function getProductByNombre($nombre){
-        $query = $this->db->prepare('SELECT * FROM productos WHERE nombre');
+        $query = $this->db->prepare('SELECT * FROM productos WHERE nombre = ?');
         $query->execute([$nombre]);
-        return $query->fetch(PDO::FETCH_OBJ);
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
      function getProductsByCategoria($categoria){
-        $query = $this->db->prepare('SELECT * FROM productos WHERE categoria');
+        $query = $this->db->prepare('SELECT * FROM productos WHERE id_categoria = ?');
         $query->execute([$categoria]);
-        return $query->fetch(PDO::FETCH_OBJ);
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
     function getSellerId($id_producto){
-        $query = $this->db->prepare('SELECT id_vendedor FROM productos WHERE id_producto');
+        $query = $this->db->prepare('SELECT id_vendedor FROM productos WHERE id_producto = ?');
         $query->execute([$id_producto]);
-        return $query->fetch(PDO::FETCH_OBJ);
+        return $query->fetchall(PDO::FETCH_OBJ);
     }
 
     function createProduct($id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion) {
