@@ -20,6 +20,10 @@ if (!empty( $_GET['action'])) {
 $params = explode('/', $action);
 
 switch ($params[0]) {
+    case 'home':
+        $controller = new ProductController();
+        $controller->getProduts();
+        break;
     case 'login':
         $controller = new AuthController();
         $controller->showLogin();
@@ -59,6 +63,10 @@ switch ($params[0]) {
     case 'createProduct':
         $controller = new ProductController();
         $controller->showCreateProduct();
+        break;
+    case 'editProduct':
+        $controller = new ProductController();
+        $controller->showEditProduct($params[1]);
         break;
     case 'addProduct':
         $controller = new ProductController();

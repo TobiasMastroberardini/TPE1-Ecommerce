@@ -16,7 +16,7 @@ class ProductView{
         require_once "template/myProductList.phtml";
     }
 
-    function showEditProduct($message = null, $categories){
+    function showEditProduct($message = null, $categories, $product){
         require_once "template/editProduct.phtml";
     }
 }

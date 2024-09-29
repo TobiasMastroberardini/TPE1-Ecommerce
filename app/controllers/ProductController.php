@@ -118,12 +118,21 @@ class ProductController{
     }
 
     function showCreateProduct(){
+        if(!AuthHelper::isLogged()){
+            RedirectHelper::redirectToLogin();
+            return;
+        }
         $categories = $this->modelCategory->getCategories();
         $this->viewProduct->showCreateProduct(null,$categories);
     }
 
-    function showEditProduct(){
+    function showEditProduct($id){
+        if(!AuthHelper::isLogged()){
+            RedirectHelper::redirectToLogin();
+            return;
+        }
+        $product = $this->modelProduct->getProductById($id);
         $categories = $this->modelCategory->getCategories();
-        $this->viewProduct->showEditProduct(null,$categories);
+        $this->viewProduct->showEditProduct(null,$categories,$product);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+require_once 'app/helpers/RedirectHelper.php';
+require_once 'app/helpers/AuthHelper.php';
 require_once "app/models/CategoryModel.php";
 require_once "app/models/ProductModel.php";
 require_once "app/views/ErrorView.php";
@@ -24,20 +26,34 @@ class CategoryController{
     }
 
     function createCategory($nombre){
+        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
+            RedirectHelper::redirectToLogin();
+            return;
+        }
         $nombre = $_GET['nombre'];
         if($nombre){
             $this->categoryModel->createCategory($nombre);
         }
+        RedirectHelper::redirectToHome();
     }
 
     function editCategory($id_categoria, $nombre){
+        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
+            RedirectHelper::redirectToLogin();
+            return;
+        }
         $nombre = $_POST['nombre'];
         if($nombre){
             $this->categoryModel->editCategory($id_categoria,$nombre); 
         }
+        RedirectHelper::redirectToHome();
     }
 
     function deleteCategory($id_categoria){
+        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
+            RedirectHelper::redirectToLogin();
+            return;
+        }
         $products = $this->productCategory->getProductsByCategoria($id_categoria);
         if($products){
             $this->errorView->showError('Debes eliminar todos los productos de una categoria para poder eliminarla');
@@ -47,6 +63,10 @@ class CategoryController{
     }
 
     function showCreateCategory(){
+        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
+            RedirectHelper::redirectToLogin();
+            return;
+        }
         $this->categoryView->showCreateCategory();
     }
 }
