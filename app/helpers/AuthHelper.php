@@ -28,15 +28,16 @@ class AuthHelper{
         return isset($_SESSION['USER_USERNAME']);
     }
 
-     public static function getLoggedInUserId() {
-        AuthHelper::init();
-        // Verificar si existe un ID de usuario en la sesión
-        if (isset($_SESSION['id_usuario']) && !empty($_SESSION['id_usuario'])) {
-            return (int)$_SESSION['id_usuario'];
-        }
-
-        return null;
+public static function getLoggedInUserId() {
+    self::init();
+    // Verificar si existe un ID de usuario en la sesión
+    if (isset($_SESSION['USER_ID']) && !empty($_SESSION['USER_ID'])) {
+        return (int)$_SESSION['USER_ID'];
     }
+
+    return null;
+}
+
 
     public static function isAdmin() {
         $userModel = new UserModel();
