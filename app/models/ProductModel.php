@@ -34,6 +34,13 @@ class ProductModel extends Model{
         return $query->fetchall(PDO::FETCH_OBJ);
     }
 
+    function getPrecioProducto($id_producto){
+        $query = $this->db->prepare('SELECT precio FROM productos WHERE id_producto = ?');
+        $query->execute([$id_producto]);
+        $result = $query->fetch(PDO::FETCH_OBJ);
+        return $result->precio;
+    }
+
     function createProduct($id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion) {
         $query = $this->db->prepare('INSERT INTO productos (id_vendedor, id_categoria, nombre, descripcion, precio, imagen, stock, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
         $query->execute([$id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion]);

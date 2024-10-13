@@ -79,7 +79,11 @@ switch ($params[0]) {
         break;
     case 'cart':
         $controller = new CartController();
-        $controller->getCarrito();
+        $controller->getProductosCarrito();
+        break;
+     case 'removeItem':
+        $controller = new CartController();
+        $controller->removeItem($params[1]);
         break;
     case 'createCategory':
         $controller = new CategoryController();
@@ -90,6 +94,6 @@ switch ($params[0]) {
         $controller->createCategory([1]);
         break;
     default:
-        echo 'Página no encontrada'; // Mostrar un mensaje de error, o redirigir
+        require_once 'template/notFound.phtml'; // Mostrar un mensaje de error, o redirigir
         break;
 }

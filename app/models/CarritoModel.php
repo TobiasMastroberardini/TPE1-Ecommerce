@@ -19,9 +19,20 @@ class CarritoModel extends Model{
         $query->execute([$id_carrito, $id_producto, $cantidad]);
     }
 
-    function getItemsCarrito($id_carrito){
-        $query = $this->db->prepare("SELECT * FROM items_carrito WHERE id_carrito = ?");
-        $query->execute([$id_carrito]);
-        return $query->fetchAll(PDO::FETCH_OBJ);
-    }
+   function removeItem($id_item) {
+    $query = $this->db->prepare("DELETE FROM items_carrito WHERE id_item = ?");
+    $query->execute([$id_item]);
+}
+
+    function getItemsCarrito($id_carrito) {
+    $query = $this->db->prepare("
+        SELECT ic.*, p.nombre, p.precio, p.imagen 
+        FROM items_carrito ic
+        JOIN productos p ON ic.id_producto = p.id_producto 
+        WHERE ic.id_carrito = ?
+    ");
+    $query->execute([$id_carrito]);
+    return $query->fetchAll(PDO::FETCH_OBJ);
+}
+
 }
