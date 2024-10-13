@@ -6,6 +6,8 @@ require_once './app/controllers/AuthController.php';
 require_once './app/controllers/ProductController.php';
 require_once './app/controllers/CategoryController.php';
 require_once './app/controllers/CartController.php';
+require_once './app/controllers/BuysController.php';
+
 
 // Definimos la constante "BASE_URL"
 define('BASE_URL', '//'.$_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . dirname($_SERVER['PHP_SELF']).'/');
@@ -84,6 +86,10 @@ switch ($params[0]) {
      case 'removeItem':
         $controller = new CartController();
         $controller->removeItem($params[1]);
+        break;
+    case 'comprar':
+        $controller = new BuysController();
+        $controller->agregarCompra();
         break;
     case 'createCategory':
         $controller = new CategoryController();
