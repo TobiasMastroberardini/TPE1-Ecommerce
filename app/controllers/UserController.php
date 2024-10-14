@@ -2,16 +2,19 @@
 require_once 'app/helpers/AuthHelper.php';
 require_once 'app/helpers/RedirectHelper.php';
 require_once 'app/models/UserModel.php';
+require_once 'app/models/CarritoModel.php';
 require_once 'app/views/UserView.php';
 require_once 'app/views/ErrorView.php';
 
 class UserController{
     private $userModel;
+    private $cartModel;
     private $userView;
     private $errorView;
 
     function __construct(){
         $this->userModel = new UserModel();
+        $this->cartModel = new CarritoModel();
         $this->userView = new UserView();
         $this->errorView = new ErrorView();
     }
@@ -52,8 +55,9 @@ class UserController{
             $hashedPassword = password_hash($contrasenia, PASSWORD_DEFAULT);
 
             // Crear usuario con la contraseña hasheada
-            $this->userModel->createUser($nombre, $email, $hashedPassword, $fechaRegistro);
-            
+            $user = $this->userModel->createUser($nombre, $email, $hashedPassword, $fechaRegistro);
+            $this->cartModel->createCarrito($user, $fechaRegistro);
+
             RedirectHelper::redirectToLogin();
             exit;
         } else {

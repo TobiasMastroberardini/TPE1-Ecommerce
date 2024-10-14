@@ -19,4 +19,8 @@ class ProductView{
     function showEditProduct($message = null, $categories, $product){
         require_once "template/editProduct.phtml";
     }
+
+    function showQuickView($product){
+        include "template/ProductQuickView.phtml";
+    }
 }

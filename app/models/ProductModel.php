@@ -52,7 +52,7 @@ class ProductModel extends Model{
     }
 
     function deleteProduct($producto_id){
-        $query = $this->db->prepare('DELETE * FROM productos WHERE producto_id=?');
+        $query = $this->db->prepare('DELETE FROM productos WHERE id_producto=?');
         $query->execute([$producto_id]);
     }
 

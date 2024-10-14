@@ -42,6 +42,7 @@ class BuysController {
         $this->buysModel->vaciarCarrito($idCarrito);
 
         // Devolver una respuesta o redirigir
-        echo "Compra realizada exitosamente";
+        header('Location: compraRealizada');
+    
     }
 }

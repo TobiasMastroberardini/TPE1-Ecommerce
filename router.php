@@ -63,6 +63,10 @@ switch ($params[0]) {
         $controller = new ProductController();
         $controller->getProductsBySeller($params[1]);
         break;
+    case 'quickView':
+        $controller = new ProductController();
+        $controller->showQuickView($params[1]);
+        break;
     case 'createProduct':
         $controller = new ProductController();
         $controller->showCreateProduct();
@@ -70,6 +74,10 @@ switch ($params[0]) {
     case 'editProduct':
         $controller = new ProductController();
         $controller->showEditProduct($params[1]);
+        break;
+    case 'deleteProduct':
+        $controller = new ProductController();
+        $controller->deleteProduct($params[1]);
         break;
     case 'addProduct':
         $controller = new ProductController();
@@ -99,7 +107,10 @@ switch ($params[0]) {
         $controller = new CategoryController();
         $controller->createCategory([1]);
         break;
+    case 'compraRealizada':
+        require_once 'template/compraRealizada.phtml';
+        break;
     default:
-        require_once 'template/notFound.phtml'; // Mostrar un mensaje de error, o redirigir
+        require_once 'template/notFound.phtml'; // Mostrar un mensaje de error
         break;
 }

@@ -38,7 +38,6 @@ public static function getLoggedInUserId() {
     return null;
 }
 
-
     public static function isAdmin() {
         $userModel = new UserModel();
         $rol = $userModel->getRolUser(self::getLoggedInUserId());

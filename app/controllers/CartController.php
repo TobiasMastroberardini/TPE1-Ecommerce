@@ -25,7 +25,7 @@ class CartController{
             $this->cartModel->addItem($id_carrito,$product_id, $cantidad);
             header('Location: '. BASE_URL. 'products');
         }else{
-            RedirectHelper::redirectToLogin();
+            header('Location:' . BASE_URL . 'login');
         }
     }
 

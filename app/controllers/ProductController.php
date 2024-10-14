@@ -115,6 +115,7 @@ class ProductController{
         }else{
             RedirectHelper::redirectToLogin();
         }
+        header('Location:' . BASE_URL . 'products');
     }
 
     function showCreateProduct(){
@@ -124,6 +125,11 @@ class ProductController{
         }
         $categories = $this->modelCategory->getCategories();
         $this->viewProduct->showCreateProduct(null,$categories);
+    }
+
+    function showQuickView($id_producto){
+        $producto = $this->modelProduct->getProductById($id_producto);
+        $this->viewProduct->showQuickView($producto);
     }
 
     function showEditProduct($id){

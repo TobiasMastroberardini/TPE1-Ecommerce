@@ -15,35 +15,6 @@
 
 <body>
     <!-- main header -->
-    <header>
-        <nav class="navbar navbar-expand-lg bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="products">Marketplace</a>
-                  <?php if (!AuthHelper::isLogged()) : ?>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="login">Login</a>
-                        </li>
-                        <?php else : ?>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="logout">Logout (<?= $_SESSION['USER_USERNAME'] ?>)</a>
-                        </li>
-                        <?php endif ?>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="productos">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="vendedores">Vendedores</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            </nav>
-    </header>
-
+    <?php include 'components/Header.phtml'; ?>
     <!-- inicio main container -->
     <main class="container mt-3"></main>
