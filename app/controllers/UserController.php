@@ -94,6 +94,11 @@ class UserController{
         }
     }
 
+    function getSellers(){
+        $selles = $this->userModel->getSellers();
+        $this->userView->showUsers($selles);
+    }
+
     // Función para validar la contraseña
     private function isNotPasswordSecure($password) {
         $minLength = 8;

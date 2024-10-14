@@ -25,7 +25,7 @@ $params = explode('/', $action);
 switch ($params[0]) {
     case 'home':
         $controller = new ProductController();
-        $controller->getProduts();
+        $controller->showHome();
         break;
     case 'login':
         $controller = new AuthController();
@@ -51,9 +51,11 @@ switch ($params[0]) {
         $controller = new UserController();
         $controller->showUsers();
         break;
-    case 'products':
+     case 'products':
         $controller = new ProductController();
-        $controller->getProduts();
+        // Asegúrate de que params[1] esté definido antes de usarlo
+        $params = isset($params[1]) ? $params[1] : null; 
+        $controller->getProduts($params);
         break;
     case 'category':
         $controller = new ProductController();
@@ -106,6 +108,10 @@ switch ($params[0]) {
     case 'addCategory':
         $controller = new CategoryController();
         $controller->createCategory([1]);
+        break;
+    case 'sellers':
+        $controller = new UserController();
+        $controller->getSellers();
         break;
     case 'compraRealizada':
         require_once 'template/compraRealizada.phtml';

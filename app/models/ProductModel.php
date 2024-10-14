@@ -41,6 +41,20 @@ class ProductModel extends Model{
         return $result->precio;
     }
 
+    function getCantProducts(){
+        $query = $this->db->prepare("SELECT COUNT(*) FROM productos");
+        $query->execute();
+        $count = $query->fetchColumn();
+        return $count; 
+    }
+
+    function getCantDinero(){
+        $query = $this->db->prepare("SELECT SUM(precio) FROM productos");
+        $query->execute();
+        $total = $query->fetchColumn();
+        return $total ? $total : 0; 
+    }
+
     function createProduct($id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion) {
         $query = $this->db->prepare('INSERT INTO productos (id_vendedor, id_categoria, nombre, descripcion, precio, imagen, stock, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
         $query->execute([$id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion]);

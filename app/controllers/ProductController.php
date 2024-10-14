@@ -4,11 +4,14 @@ require_once 'app/helpers/RedirectHelper.php';
 require_once "app/views/ErrorView.php";
 require_once "app/models/ProductModel.php";
 require_once "app/models/CategoryModel.php";
+require_once "app/models/UserModel.php";
 require_once "app/views/ProductView.php";
 
 class ProductController{
     private $modelProduct;
     private $modelCategory;
+
+    private $modelUser;
     private $viewProduct;
     private $ErrorView;
 
@@ -17,15 +20,33 @@ class ProductController{
         $this->viewProduct = new ProductView();
         $this->ErrorView = new ErrorView();
         $this->modelCategory = new CategoryModel();
+        $this->modelUser = new UserModel();
     }
     
-    public function getProduts(){
+    public function getProduts($params) {
+    // Si se pasan parámetros, intenta obtener productos por categoría
+    if ($params) {
+        $products = $this->modelProduct->getProductsByCategoria($params);
+    } else {
+        // Si no hay parámetros, obtener todos los productos
         $products = $this->modelProduct->getProducts();
-        if($products){
-            $this->viewProduct->showProducts($products);
-        }else{
-            $this->ErrorView->showError('Los productos no existen en la base de datos.');
-        }
+    }
+
+    // Verificar si se encontraron productos
+    if ($products) {
+        $this->viewProduct->showProducts($products);
+    } else {
+        // Mostrar un mensaje de error si no hay productos
+        $this->ErrorView->showError('Los productos no existen en la base de datos.');
+    }
+}
+
+    public function showHome(){
+        $products =$this->modelProduct->getProducts();
+        $cantUsers = $this->modelUser->getCantUsers();
+        $cantProducts = $this->modelProduct->getCantProducts();
+        $cantDinero = $this->modelProduct->getCantDinero();
+        $this->viewProduct->showInicio($products, $cantUsers, $cantProducts, $cantDinero);
     }
 
     public function getProductById($product_id){
@@ -75,7 +96,7 @@ class ProductController{
                 // Llama al modelo para crear el producto con los datos recogidos
                 $this->modelProduct->createProduct($id_vendedor, $categoria, $nombre, $descripcion, $precio, $imagen, $stock, $fecha_creacion);
                 // Redirige a la página de inicio o muestra un mensaje de éxito
-                $this->viewProduct->showInicio("Producto agregado");
+                $this->showHome();
             }
         }else{
             RedirectHelper::redirectToLogin();

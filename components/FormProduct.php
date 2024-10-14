@@ -1,3 +1,5 @@
+<section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
+
 <form action="addProduct" method="POST" enctype="multipart/form-data">
     <div class="mb-4">
         <label for="nombre" class="block text-gray-700">Nombre del Producto:</label>
@@ -48,3 +50,5 @@
 
     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Crear Producto</button>
 </form>
+
+</section>

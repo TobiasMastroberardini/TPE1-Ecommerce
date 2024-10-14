@@ -12,8 +12,8 @@ class ProductView{
         require_once "template/createProduct.phtml";
     }
 
-    function showInicio($message = null){
-        require_once "template/myProductList.phtml";
+    function showInicio($products, $cantUsers, $cantProducts, $cantDinero){
+        require_once "template/home.phtml";
     }
 
     function showEditProduct($message = null, $categories, $product){

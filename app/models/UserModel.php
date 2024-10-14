@@ -39,11 +39,29 @@ class UserModel extends Model{
     return $result ? (int)$result->rol : null; // Convierte a int y maneja el caso nulo
 }
 
-
+    function getSellers(){
+        $query = $this->db->prepare("
+            SELECT u.id_usuario, u.nombre, u.email, u.fecha_registro
+            FROM usuarios u
+            JOIN productos p ON u.id_usuario = p.id_vendedor
+            GROUP BY u.id_usuario
+            HAVING COUNT(p.id_producto) > 0
+        ");
+        $query->execute([]);
+        return $query->fetchAll(PDO::FETCH_OBJ);
+    }
     function verifyEmailRegistred($email){
         $query = $this->db->prepare('SELECT * FROM usuarios WHERE email=?');
         $query->execute([$email]);
         return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    function getCantUsers(){
+        $query = $this->db->prepare("SELECT COUNT(*) FROM usuarios");
+        $query->execute();
+        $count = $query->fetchColumn();
+
+        return $count;
     }
 
     function createUser($nombre, $email, $contraseña, $fecha_registro){
