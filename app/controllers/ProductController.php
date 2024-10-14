@@ -28,7 +28,8 @@ class ProductController{
         }else {
             $products = $this->modelProduct->getProducts();
         }
-        $this->viewProduct->showProducts($products);
+        $categorias = $this->modelCategory->getCategories();
+        $this->viewProduct->showProducts($products, $categorias);
     }
     
     public function getProductsByCategory($categoria){

@@ -4,12 +4,19 @@
   <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
     <h2 class="text-2xl font-bold tracking-tight text-gray-900">Lista de Productos</h2>
 
-    <?php if (!empty($products)): ?>
-    <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-      <?php foreach ($products as $product): ?>
-        <?php include 'components/ProductCard.php'; ?>
+    <select class="mt-4 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" aria-label="Default select example" onchange="location = this.value;">
+      <option selected disabled>Seleccionar categoria</option>
+      <?php foreach ($categorias as $category): ?>
+          <option value="products/<?php echo $category->id_categoria; ?>"><?php echo $category->nombre; ?></option>
       <?php endforeach; ?>
-    </div>
+    </select>
+
+    <?php if (!empty($products)): ?>
+      <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        <?php foreach ($products as $product): ?>
+          <?php include 'components/ProductCard.php'; ?>
+        <?php endforeach; ?>
+      </div>
     <?php else: ?>
       <p>No hay productos disponibles.</p>
     <?php endif; ?>
