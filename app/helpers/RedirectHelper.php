@@ -3,12 +3,22 @@
 class RedirectHelper{
     
     public static function redirectToLogin() {
-        header('Location: login');
+        header('Location: '  . BASE_URL .  'login');
         exit();
     }
 
     public static function redirectToHome() {
-        header('Location: home');
+        header('Location: ' . BASE_URL . 'home');
+        exit();
+    }
+
+    public static function redirectToProducts(){
+        header('Location:' . BASE_URL . 'products');
+        exit();
+    }
+
+    public static function redirectToCart(){
+        header('Location: ' . BASE_URL . 'cart');
         exit();
     }
 }

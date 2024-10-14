@@ -26,47 +26,48 @@ class CategoryController{
     }
 
     function createCategory($nombre){
-        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
+        if(AuthHelper::isLogged() && AuthHelper::isAdmin()){
+            $nombre = $_GET['nombre'];
+            if($nombre){
+                $this->categoryModel->createCategory($nombre);
+                RedirectHelper::redirectToHome();
+
+            }
+        }else{
             RedirectHelper::redirectToLogin();
-            return;
         }
-        $nombre = $_GET['nombre'];
-        if($nombre){
-            $this->categoryModel->createCategory($nombre);
-        }
-        RedirectHelper::redirectToHome();
     }
 
     function editCategory($id_categoria, $nombre){
-        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
+        if(AuthHelper::isLogged() && AuthHelper::isAdmin()){
+            $nombre = $_POST['nombre'];
+            if($nombre){
+                $this->categoryModel->editCategory($id_categoria,$nombre); 
+                RedirectHelper::redirectToHome();
+            }
+        }else{
             RedirectHelper::redirectToLogin();
-            return;
         }
-        $nombre = $_POST['nombre'];
-        if($nombre){
-            $this->categoryModel->editCategory($id_categoria,$nombre); 
-        }
-        RedirectHelper::redirectToHome();
     }
 
     function deleteCategory($id_categoria){
-        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
-            RedirectHelper::redirectToLogin();
-            return;
+        if(AuthHelper::isLogged() && AuthHelper::isAdmin()){
+            $products = $this->productCategory->getProductsByCategoria($id_categoria);
+            if($products){
+                $this->errorView->showError('Debes eliminar todos los productos de una categoria para poder eliminarla');
+                die();
+            }
+            $this->categoryModel->deleteCategory($id_categoria);
+            RedirectHelper::redirectToHome();
         }
-        $products = $this->productCategory->getProductsByCategoria($id_categoria);
-        if($products){
-            $this->errorView->showError('Debes eliminar todos los productos de una categoria para poder eliminarla');
-            die();
-        }
-        $this->categoryModel->deleteCategory($id_categoria);
+        RedirectHelper::redirectToLogin();
     }
 
     function showCreateCategory(){
-        if(!AuthHelper::isLogged() && !AuthHelper::isAdmin()){
+        if(AuthHelper::isLogged() && AuthHelper::isAdmin()){
+            $this->categoryView->showCreateCategory();
+        }else{
             RedirectHelper::redirectToLogin();
-            return;
         }
-        $this->categoryView->showCreateCategory();
     }
 }

@@ -5,7 +5,7 @@ require_once 'app/models/Model.php';
 class ProductModel extends Model{
 
     function getProducts(){
-        $query = $this->db->prepare('SELECT * FROM productos');
+        $query = $this->db->prepare('SELECT * FROM productos WHERE disponible = 1');
         $query->execute([]);
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
@@ -42,7 +42,7 @@ class ProductModel extends Model{
     }
 
     function getCantProducts(){
-        $query = $this->db->prepare("SELECT COUNT(*) FROM productos");
+        $query = $this->db->prepare("SELECT COUNT(*) FROM productos WHERE disponible = 1");
         $query->execute();
         $count = $query->fetchColumn();
         return $count; 
@@ -56,8 +56,8 @@ class ProductModel extends Model{
     }
 
     function createProduct($id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion) {
-        $query = $this->db->prepare('INSERT INTO productos (id_vendedor, id_categoria, nombre, descripcion, precio, imagen, stock, fecha_creacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
-        $query->execute([$id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion]);
+        $query = $this->db->prepare('INSERT INTO productos (id_vendedor, id_categoria, nombre, descripcion, precio, imagen, stock, fecha_creacion, disponible) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $query->execute([$id_vendedor, $categoria, $nombre, $descripcio, $precio, $imagen, $stock, $fecha_creacion, 1]);
    }
 
     function editProduct($id_producto, $categoria, $nombre, $descripcio, $precio, $imagen, $stock) {
@@ -70,4 +70,13 @@ class ProductModel extends Model{
         $query->execute([$producto_id]);
     }
 
+    function disableProduct($id_producto){
+        $query = $this->db->prepare('UPDATE productos SET disponible = 0 WHERE id_producto = ?');
+        $query->execute([$id_producto]);
+    }
+
+    function enableProduct($id_producto){
+        $query = $this->db->prepare('UPDATE productos SET disponible = 1 WHERE id_producto = ?');
+        $query->execute([$id_producto]);
+    }
 }

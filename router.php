@@ -1,6 +1,7 @@
 <?php
 // Hacemos un require_once de los controllers que usamos
 require_once 'config.php';
+require_once './app/controllers/PageController.php';
 require_once './app/controllers/UserController.php';
 require_once './app/controllers/AuthController.php';
 require_once './app/controllers/ProductController.php';
@@ -24,11 +25,11 @@ $params = explode('/', $action);
 
 switch ($params[0]) {
     case 'home':
-        $controller = new ProductController();
+        $controller = new PageController();
         $controller->showHome();
         break;
     case 'login':
-        $controller = new AuthController();
+        $controller = new PageController();
         $controller->showLogin();
         break;
     case 'logout':
@@ -77,9 +78,9 @@ switch ($params[0]) {
         $controller = new ProductController();
         $controller->showEditProduct($params[1]);
         break;
-    case 'deleteProduct':
+    case 'disableProduct':
         $controller = new ProductController();
-        $controller->deleteProduct($params[1]);
+        $controller->disableProduct($params[1]);
         break;
     case 'addProduct':
         $controller = new ProductController();
