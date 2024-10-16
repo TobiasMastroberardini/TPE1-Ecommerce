@@ -2,6 +2,7 @@
 
 class UserView{
 
+    
     function showCreateUSer($message = null){
         require_once "template/CreateUSer.phtml";
     }

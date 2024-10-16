@@ -1,6 +1,11 @@
 <section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
 
-<form action="addProduct" method="POST" enctype="multipart/form-data">
+<?php
+// Si se está editando un producto, el `action` es para actualizar, de lo contrario, para agregar
+$actionUrl = isset($product->id_producto) ? "editedProduct/{$product->id_producto}" : "addProduct";
+?>
+
+<form action="<?php echo $actionUrl; ?>" method="POST" enctype="multipart/form-data">
     <div class="mb-4">
         <label for="nombre" class="block text-gray-700">Nombre del Producto:</label>
         <input type="text" id="nombre" name="nombre" class="mt-2 block w-full px-4 py-2 border rounded" 
@@ -48,7 +53,14 @@
         </select>
     </div>
 
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Crear Producto</button>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+        <?php echo isset($product->id_producto) ? 'Actualizar Producto' : 'Crear Producto'; ?>
+    </button>
 </form>
+<?php if($message): ?>
+    <div class="alert alert-info">
+        <?php echo htmlspecialchars($message); ?>
+    </div>
+<?php endif; ?>
 
 </section>

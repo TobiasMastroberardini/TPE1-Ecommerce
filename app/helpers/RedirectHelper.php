@@ -21,4 +21,9 @@ class RedirectHelper{
         header('Location: ' . BASE_URL . 'cart');
         exit();
     }
+
+    public static function redirectToProfile(){
+        header('Location: ' . BASE_URL . 'profile');
+        exit();
+    }
 }

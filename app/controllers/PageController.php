@@ -29,7 +29,8 @@ class PageController {
         $cantUsers = $this->modelUser->getCantUsers();
         $cantProducts = $this->modelProduct->getCantProducts();
         $cantDinero = $this->modelProduct->getCantDinero();
-        $this->pageView->showHome($products, $cantUsers, $cantProducts, $cantDinero);
+        $categorias = $this->modelCategory->getCategories();
+        $this->pageView->showHome($products, $cantUsers, $cantProducts, $cantDinero, $categorias);
     }
 
     public function showLogin($message = null){

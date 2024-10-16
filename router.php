@@ -78,6 +78,10 @@ switch ($params[0]) {
         $controller = new ProductController();
         $controller->showEditProduct($params[1]);
         break;
+    case 'editedProduct':
+        $controller = new ProductController();
+        $controller->editProduct($params[1]);
+        break;
     case 'disableProduct':
         $controller = new ProductController();
         $controller->disableProduct($params[1]);

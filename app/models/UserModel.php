@@ -29,15 +29,21 @@ class UserModel extends Model{
     }
 
     public function getRolUser($id_usuario) {
-    $query = $this->db->prepare('SELECT rol FROM usuarios WHERE id_usuario = ?');
-    $query->execute([$id_usuario]);
+        $query = $this->db->prepare('SELECT rol FROM usuarios WHERE id_usuario = ?');
+        $query->execute([$id_usuario]);
     
-    // Obtén el resultado como un objeto
-    $result = $query->fetch(PDO::FETCH_OBJ);
-    
-    // Verifica si se encontró el resultado y devuelve el rol como int
-    return $result ? (int)$result->rol : null; // Convierte a int y maneja el caso nulo
-}
+        $result = $query->fetch(PDO::FETCH_OBJ);
+        return $result ? (int)$result->rol : null; // Convierte a int y maneja el caso nulo
+    }
+
+    public function getImageById($usuario_id) {
+        $query = $this->db->prepare('SELECT imagen FROM usuarios WHERE id_usuario = ?');
+        $query->execute([$usuario_id]);
+        $result = $query->fetch(PDO::FETCH_OBJ);
+        // Retornar el nombre de la imagen si se encuentra, o null si no
+        return $result ? $result->imagen : null;
+    }
+
 
     function getSellers(){
         $query = $this->db->prepare("
@@ -64,15 +70,15 @@ class UserModel extends Model{
         return $count;
     }
 
-    function createUser($nombre, $email, $contraseña, $fecha_registro){
-        $query = $this->db->prepare('INSERT INTO usuarios (nombre, email, contraseña, fecha_registro, rol) VALUES (?,?,?,?,?)');
-        $query->execute([$nombre, $email, $contraseña, $fecha_registro, 0]);
+    function createUser($nombre, $email, $contraseña, $fecha_registro, $imagen){
+        $query = $this->db->prepare('INSERT INTO usuarios (nombre, email, contraseña, fecha_registro, rol, imagen) VALUES (?,?,?,?,?,?)');
+        $query->execute([$nombre, $email, $contraseña, $fecha_registro, 0, $imagen]);
         return $this->db->lastInsertId();
     }
 
-    function editUser($usuario_id, $email, $contraseña){
-        $query = $this->db->prepare('UPDATE usuarios SET email = ?, contraseña = ? WHERE usuario_id = ?');
-        $query->execute([$usuario_id, $email, $contraseña]);
+    function editUser($usuario_id, $email, $contraseña, $imagen){
+        $query = $this->db->prepare('UPDATE usuarios SET email = ?, contraseña = ?, imagen = ? WHERE usuario_id = ?');
+        $query->execute([$usuario_id, $email, $contraseña, $imagen]);
     }
 
     function deleteUser($usuario_id){

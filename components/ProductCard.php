@@ -1,7 +1,7 @@
 <div class="group relative">
   <a href="quickView/<?php echo htmlspecialchars($product->id_producto); ?>">
     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-        <img src="<?php echo htmlspecialchars($product->imagen); ?>" alt="<?php echo htmlspecialchars($product->imagen);?>">
+        <img src="images/<?php echo htmlspecialchars($product->imagen); ?>" alt="<?php echo htmlspecialchars($product->imagen);?>">
     </div>
     <div class="mt-4 flex justify-between">
         <div>
@@ -16,5 +16,6 @@
   </a>
     <?php if(AuthHelper::isAdmin() || AuthHelper::getLoggedInUserId() == $product->id_vendedor): ?>
         <a href="disableProduct/<?php echo $product->id_producto; ?>" class="btn btn-danger" onclick="event.stopPropagation();">Eliminar</a>
+        <a href="editProduct/<?php echo $product->id_producto; ?>" class="btn btn-warning" onclick="event.stopPropagation();">Editar</a>
     <?php endif; ?>
 </div>

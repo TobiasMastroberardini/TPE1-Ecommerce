@@ -33,53 +33,79 @@ class UserController{
     }
 
     public function createUser() {
-        $email = $_POST['email'];
-        $nombre = $_POST['nombre'];
-        $contrasenia = $_POST['contrasenia'];
-        $fechaRegistro = date("Y-m-d H:i:s");
+    $email = $_POST['email'];
+    $nombre = $_POST['nombre'];
+    $contrasenia = $_POST['contrasenia'];
+    $fechaRegistro = date("Y-m-d H:i:s");
+    $imagen = $_FILES['imagen']['name']; // Obtener el nombre de la imagen
 
-        if ($email && $nombre && $contrasenia && $fechaRegistro) {
-            
-            $registredEmail = $this->userModel->verifyEmailRegistred($email);
+    if ($email && $nombre && $contrasenia && $fechaRegistro && $imagen) {
+        
+        $registredEmail = $this->userModel->verifyEmailRegistred($email);
 
-            if($registredEmail){
-                $this->userView->showCreateUSer("El Email ya exiate");
-                die();
-            }
+        if($registredEmail) {
+            $this->userView->showCreateUSer("El Email ya existe");
+            die();
+        }
 
-            if ($this->isNotPasswordSecure($contrasenia)) {
-                die();
-            }
-            
-            // Hashear la contraseña antes de enviarla al modelo
-            $hashedPassword = password_hash($contrasenia, PASSWORD_DEFAULT);
+        if ($this->isNotPasswordSecure($contrasenia)) {
+            die();
+        }
+        
+        // Hashear la contraseña antes de enviarla al modelo
+        $hashedPassword = password_hash($contrasenia, PASSWORD_DEFAULT);
 
-            // Crear usuario con la contraseña hasheada
-            $user = $this->userModel->createUser($nombre, $email, $hashedPassword, $fechaRegistro);
-            $this->cartModel->createCarrito($user, $fechaRegistro);
+        // Crear usuario con la contraseña hasheada
+        $user = $this->userModel->createUser($nombre, $email, $hashedPassword, $fechaRegistro, $imagen);
+        $this->cartModel->createCarrito($user, $fechaRegistro);
 
+        // Mover la imagen al directorio de imágenes
+        if (move_uploaded_file($_FILES['imagen']['tmp_name'], 'images/' . $imagen)) {
+            // La imagen se ha subido correctamente
             RedirectHelper::redirectToLogin();
             exit;
         } else {
-            $this->userView->showCreateUSer("Campos incompletos");
+            // Manejo de error en la carga de la imagen
+            $this->userView->showCreateUSer("Error al cargar la imagen");
         }
+    } else {
+        $this->userView->showCreateUSer("Campos incompletos");
     }
+}
 
-    public function editUSer($usuario_id){
-        $id = $this->userModel->getIdUser($usuario_id);
-        if(AuthHelper::isLogged() && AuthHelper::getLoggedInUserId() == $id){
-            $email = $_POST['email'];
-            $contrasenia = $_POST['contrasenia'];
 
-            if($email && $contrasenia){
-                $this->userModel->editUser($usuario_id, $email, $contrasenia);
-            }else{
-                $this->userView->showEditUSer("Campos incompletos");
+    public function editUser($usuario_id) {
+    $id = $this->userModel->getIdUser($usuario_id);
+    if (AuthHelper::isLogged() && AuthHelper::getLoggedInUserId() == $id) {
+        $email = $_POST['email'];
+        $contrasenia = $_POST['contrasenia'];
+        $imagen = $_FILES['imagen']['name']; // Obtener el nombre de la imagen (si se sube una nueva)
+
+        // Verificar si se proporciona un nuevo email y contraseña
+        if ($email && $contrasenia) {
+            // Si hay una imagen, primero la subimos
+            if (!empty($imagen)) {
+                // Mover la nueva imagen al directorio de imágenes
+                if (move_uploaded_file($_FILES['imagen']['tmp_name'], 'images/' . $imagen)) {
+                    // Actualizar usuario con la nueva imagen
+                    $this->userModel->editUser($usuario_id, $email, $contrasenia, $imagen);
+                } else {
+                    $this->userView->showEditUSer("Error al cargar la imagen");
+                    return; // Detener la ejecución si hay un error
+                }
+            } else {
+                $imagenActual = $this->userModel->getImageById($id);
+                // Si no se proporciona una nueva imagen, solo actualizamos el email y la contraseña
+                $this->userModel->editUser($usuario_id, $email, $contrasenia, $imagenActual);
             }
-        }else{
-            RedirectHelper::redirectToLogin();
+            RedirectHelper::redirectToProfile(); // Redirigir a la página de perfil
+        } else {
+            $this->userView->showEditUSer("Campos incompletos");
         }
+    } else {
+        RedirectHelper::redirectToLogin();
     }
+}
 
     public function deleteUSer($usuario_id){
         if (!AuthHelper::isLogged()) {
