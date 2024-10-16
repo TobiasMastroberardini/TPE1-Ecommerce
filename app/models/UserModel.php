@@ -47,7 +47,7 @@ class UserModel extends Model{
 
     function getSellers(){
         $query = $this->db->prepare("
-            SELECT u.id_usuario, u.nombre, u.email, u.fecha_registro
+            SELECT u.id_usuario, u.nombre, u.email, u.fecha_registro, u.imagen
             FROM usuarios u
             JOIN productos p ON u.id_usuario = p.id_vendedor
             GROUP BY u.id_usuario
