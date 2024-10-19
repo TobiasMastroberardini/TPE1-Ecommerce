@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-09-2024 a las 00:20:01
+-- Tiempo de generación: 19-10-2024 a las 22:11:16
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -113,7 +113,8 @@ CREATE TABLE `productos` (
   `precio` decimal(10,2) NOT NULL,
   `imagen` varchar(250) DEFAULT NULL,
   `stock` int(11) NOT NULL,
-  `fecha_creacion` datetime DEFAULT current_timestamp()
+  `fecha_creacion` datetime DEFAULT current_timestamp(),
+  `disponible` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -127,7 +128,8 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `contraseña` varchar(500) NOT NULL,
-  `fecha_registro` datetime DEFAULT current_timestamp()
+  `fecha_registro` datetime DEFAULT current_timestamp(),
+  `rol` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
