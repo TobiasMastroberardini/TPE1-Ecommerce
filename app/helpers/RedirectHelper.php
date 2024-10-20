@@ -26,4 +26,9 @@ class RedirectHelper{
         header('Location: ' . BASE_URL . 'profile');
         exit();
     }
+
+    public static function redirecAdminCategories(){
+        header('Location: ' . BASE_URL . 'showCategorias');
+        exit();
+    }
 }

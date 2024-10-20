@@ -9,13 +9,16 @@
                <span aria-hidden="true" class="inset-0"></span>
                 <p class="text-l font-bold text-gray-800"><?php echo htmlspecialchars($product->nombre); ?></p>
             </h3>
-            <p class="mt-1 text-sm text-gray-500">Black</p>
+            <p class="mt-1 text-sm text-gray-500"><?php echo htmlspecialchars($product->categoria_nombre); ?></p>
         </div>
         <p class="text-sm font-medium text-gray-900">$<?php echo htmlspecialchars(number_format($product->precio, 2)); ?></p>
     </div>
   </a>
     <?php if(AuthHelper::isAdmin() || AuthHelper::getLoggedInUserId() == $product->id_vendedor): ?>
         <a href="disableProduct/<?php echo $product->id_producto; ?>" class="btn btn-danger" onclick="event.stopPropagation();">Eliminar</a>
+    <?php endif; ?>
+        <?php if(AuthHelper::getLoggedInUserId() == $product->id_vendedor): ?>
         <a href="editProduct/<?php echo $product->id_producto; ?>" class="btn btn-warning" onclick="event.stopPropagation();">Editar</a>
     <?php endif; ?>
+
 </div>

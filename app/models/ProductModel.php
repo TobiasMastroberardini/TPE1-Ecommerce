@@ -4,11 +4,18 @@ require_once 'app/models/Model.php';
 
 class ProductModel extends Model{
 
-    function getProducts(){
-        $query = $this->db->prepare('SELECT * FROM productos WHERE disponible = 1');
-        $query->execute([]);
+    function getProducts() {
+        // Consulta con JOIN para traer el nombre de la categoría
+        $query = $this->db->prepare('
+        SELECT productos.*, categorias.nombre AS categoria_nombre
+        FROM productos
+        JOIN categorias ON productos.id_categoria = categorias.id_categoria
+        WHERE productos.disponible = 1
+        ');
+        $query->execute();
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
+
 
     function getProductById($producto_id){
         $query = $this->db->prepare('SELECT * FROM productos WHERE id_producto  = ?');
@@ -22,10 +29,16 @@ class ProductModel extends Model{
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
-     function getProductsByCategoria($categoria){
-        $query = $this->db->prepare('SELECT * FROM productos WHERE id_categoria = ?');
+    function getProductsByCategoria($categoria) {
+        // Consulta con JOIN para traer el nombre de la categoría
+        $query = $this->db->prepare('
+        SELECT productos.*, categorias.nombre AS categoria_nombre
+        FROM productos
+        JOIN categorias ON productos.id_categoria = categorias.id_categoria
+        WHERE productos.id_categoria = ?
+        ');
         $query->execute([$categoria]);
-        return $query->fetchAll(PDO::FETCH_OBJ);
+        return $query->fetchAll(PDO::FETCH_OBJ); // Retorna el resultado como un array de objetos
     }
 
     function getSellerId($id_producto) {

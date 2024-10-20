@@ -34,7 +34,7 @@ class CategoryController{
 
             }
         }else{
-            RedirectHelper::redirectToLogin();
+            RedirectHelper::redirecAdminCategories();
         }
     }
 
@@ -46,7 +46,7 @@ class CategoryController{
                 RedirectHelper::redirectToHome();
             }
         }else{
-            RedirectHelper::redirectToLogin();
+            RedirectHelper::redirecAdminCategories();
         }
     }
 
@@ -55,12 +55,11 @@ class CategoryController{
             $products = $this->productCategory->getProductsByCategoria($id_categoria);
             if($products){
                 $this->errorView->showError('Debes eliminar todos los productos de una categoria para poder eliminarla');
-                die();
+            }else{
+                $this->categoryModel->deleteCategory($id_categoria);
+                RedirectHelper::redirecAdminCategories();
             }
-            $this->categoryModel->deleteCategory($id_categoria);
-            RedirectHelper::redirectToHome();
         }
-        RedirectHelper::redirectToLogin();
     }
 
     function showCreateCategory(){
@@ -68,6 +67,13 @@ class CategoryController{
             $this->categoryView->showCreateCategory();
         }else{
             RedirectHelper::redirectToLogin();
+        }
+    }
+
+    function showCategoryList(){
+        if(AuthHelper::isLogged() && AuthHelper::isAdmin()){
+            $categorias = $this->categoryModel->getCategories();
+            $this->categoryView->showCategoryList($categorias);
         }
     }
 }

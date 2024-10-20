@@ -21,7 +21,7 @@ class CategoryModel extends Model{
     }
 
     function deleteCategory($id_categoria){
-        $query = $this->db->prepare('DELETE * FROM categorias WHERE id_categoria = ?');
-        $query->execute([]);
+        $query = $this->db->prepare('DELETE FROM categorias WHERE id_categoria = ?');
+        $query->execute([$id_categoria]);
     }
 }

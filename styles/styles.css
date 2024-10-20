@@ -72,3 +72,8 @@ footer {
 .color-black {
   color: #000;
 }
+
+/* Define una clase para el ancho */
+.custom-width {
+  width: 30px;
+}

@@ -112,7 +112,15 @@ switch ($params[0]) {
         break;
     case 'addCategory':
         $controller = new CategoryController();
-        $controller->createCategory([1]);
+        $controller->createCategory($params[1]);
+        break;
+    case 'deleteCategory':
+        $controller = new CategoryController();
+        $controller->deleteCategory($params[1]);
+        break;
+    case 'showCategorias':
+        $controller = new CategoryController();
+        $controller->showCategoryList();
         break;
     case 'sellers':
         $controller = new UserController();
