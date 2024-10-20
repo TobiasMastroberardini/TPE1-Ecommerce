@@ -1,0 +1,24 @@
+<?php require_once 'header.phtml'; ?>
+
+<section class="bg-white dark:bg-gray-900">
+    <div class="container px-6 py-10 mx-auto">
+        <h1 class="text-2xl font-semibold text-center text-gray-800 capitalize lg:text-3xl">Lista de usuarios</h1>
+         <?php if (!empty($users)): ?>
+        <div class="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4">
+            <?php foreach ($users as $usuario): ?>
+            <div class="flex flex-col items-center p-8 transition-colors duration-300 transform border cursor-pointer rounded-xl hover:border-transparent group hover:bg-blue-600 dark:border-gray-700 dark:hover:border-transparent">
+                <img class="object-cover w-32 h-32 rounded-full ring-4 ring-gray-300" src="images/<?php echo htmlspecialchars($usuario->imagen); ?>" alt="<?php echo htmlspecialchars($usuario->nombre); ?>">
+
+                <h1 class="mt-4 text-2xl font-semibold text-gray-700 capitalize group-hover:text-white"><?php echo htmlspecialchars($usuario->nombre); ?></h1>
+                <p class="mt-2 text-gray-500 group-hover:text-gray-300"><?php echo htmlspecialchars($usuario->email); ?></p>
+                <p class="mt-2 text-gray-500 capitalize group-hover:text-gray-300">Fecha Registro <?php echo htmlspecialchars($usuario->fecha_registro); ?></p>
+            </div>
+            <?php endforeach; ?>
+            <?php else: ?>
+        <p>No hay usuarios disponibles.</p>
+    <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<?php require_once 'footer.phtml'; ?>
