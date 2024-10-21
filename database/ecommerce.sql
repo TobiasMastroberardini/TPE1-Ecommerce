@@ -168,7 +168,7 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `contraseña`, `fecha_registro`, `rol`, `imagen`) VALUES
-(25, 'Tobias', 'admin', '$2y$10$SYNQVvCBCH.LYy9D05.1XezISSi8WXPoswX8kglKiEbThchKtIAsC', '2024-10-20 17:02:31', 1, '5FB66711-DC0A-4045-BB58-BB3EAC57FF73.jpg'),
+(25, 'Tobias', 'webadmin', '$2y$10$gvvgzXyERpfL08xQywZHLOOCRUIhuSVZx2ZU3kDuU1hTKYyvp7Mja', '2024-10-20 17:02:31', 1, '5FB66711-DC0A-4045-BB58-BB3EAC57FF73.jpg'),
 (26, 'Lucas Piccolo', 'lucaspiccolo@gmail.com', '$2y$10$UgYbwUhkN3YSdOIQMcBXTOUxlBwv1D9e9OCzGNcIKfHHkhXEQH.l.', '2024-10-20 17:56:13', 0, 'WhatsApp Image 2024-10-20 at 12.55.44.jpeg'),
 (27, 'Tobias Mastroberardini', 'tmastroberardini1@gmail.com', '$2y$10$VIUWG7zHIPlF1Bvbk2u8GesdDjp8MX79B4NPk7ufp3ldlZwQix5c2', '2024-10-20 18:14:50', 0, '5FB66711-DC0A-4045-BB58-BB3EAC57FF73.jpg');
 
